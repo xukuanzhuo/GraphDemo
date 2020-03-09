@@ -4,7 +4,8 @@
 
 <script>
 import BaseOptions from './option';
-import SourceData from './data.json';
+import data from './data.json';
+import SourceData from './sourceData.json';
 
 export default {
   name: 'EchartGraph',
@@ -12,18 +13,23 @@ export default {
     computedOptions() {
       const options = BaseOptions;
 
-      options.series.data = SourceData.nodes.map(node => ({
-        x: node.x,
-        y: node.y,
-        id: node.id,
-        name: node.label,
-        symbolSize: node.size,
-        itemStyle: {
-          color: node.color,
-        },
-      }));
+      options.series.data = SourceData.nodes.map((node, index) => {
+        const baseNode = {
+          x: node.x,
+          y: node.y,
+          id: node.id,
+          name: node.label,
+          symbolSize: node.size / 50,
+          itemStyle: {
+            color: data.nodes[index].color,
+          },
+        };
+        return node.size / 50 > 30 ? Object.assign({}, baseNode, {
+          label: { show: true },
+        }) : baseNode;
+      });
 
-      options.series.edges = SourceData.edges.map(edge => ({
+      options.series.edges = data.edges.map(edge => ({
         source: edge.sourceID,
         target: edge.targetID,
       }));
