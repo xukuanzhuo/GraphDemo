@@ -24,7 +24,7 @@ export default {
             color: data.nodes[index].color,
           },
         };
-        return node.size / 50 > 30 ? Object.assign({}, baseNode, {
+        return node.size / 50 > 10 ? Object.assign({}, baseNode, {
           label: { show: true },
         }) : baseNode;
       });
